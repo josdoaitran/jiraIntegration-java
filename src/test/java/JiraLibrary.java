@@ -23,7 +23,7 @@ public class JiraLibrary {
     private static String projectAPI = hostJira + "/rest/api/2/project";
     private static String createTicketAPI = hostJira + "/rest/api/2/issue";
     private static String updateTicketAPI = hostJira + "/rest/api/2/issue";
-
+    private static String deleteTicketAPI = hostJira + "/rest/api/2/issue";
     /**
      * This Method to get Jira Project Name
       * @return => projectKey as: ATD
@@ -64,7 +64,7 @@ public class JiraLibrary {
         return issue;
     }
 
-    private static String updateJiraTicket() throws AuthenticationException {
+    private static void updateJiraTicket() throws AuthenticationException {
         String auth = new String(Base64.encode(userNameJira + ":" + passWordJira));
         String projects = invokeGetMethod(auth, projectAPI);
         System.out.println(projects);
@@ -76,12 +76,25 @@ public class JiraLibrary {
             projectKey = proj.getString("key");
         }
         String createIssueData = "{\"fields\":{\"project\":{\"key\":\"DEMO\"},\"summary\":\"REST Test\",\"issuetype\":{\"name\":\"Bug\"}}}";
-        String issue = invokePostMethod(auth, updateJiraTicket(), createIssueData);
+        String issue = invokePostMethod(auth, updateTicketAPI, createIssueData);
         System.out.println(issue);
         JSONObject issueObj = new JSONObject(issue);
         String newKey = issueObj.getString("key");
         System.out.println("Key:"+newKey);
-        return newKey;
+    }
+
+    private static void deleteJiraTicket(String jirTicket) throws AuthenticationException {
+        String auth = new String(Base64.encode(userNameJira + ":" + passWordJira));
+        String projects = invokeGetMethod(auth, projectAPI);
+        System.out.println(projects);
+        String projectKey = null;
+        JSONArray projectArray = new JSONArray(projects);
+        for (int i = 0; i < projectArray.length(); i++) {
+            JSONObject proj = projectArray.getJSONObject(i);
+            System.out.println("Key:"+proj.getString("key")+", Name:"+proj.getString("name"));
+            projectKey = proj.getString("key");
+        }
+        invokeDeleteMethod(auth, deleteTicketAPI+"/"+jirTicket);
     }
 
     private static String invokeGetMethod(String auth, String url) throws AuthenticationException, ClientHandlerException {

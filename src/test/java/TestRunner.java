@@ -1,13 +1,15 @@
 import org.junit.Test;
 
+import javax.naming.AuthenticationException;
 import java.util.Date;
 
 
 public class TestRunner {
 
     @Test
-    public void TestExample() {
-        JiraLibrary.createATicket(generateJiraTicketDate());
+    public void TestExample() throws AuthenticationException {
+        //JiraLibrary.getJiraProjectName();
+        JiraLibrary.createJiraTicket();
     }
 
 

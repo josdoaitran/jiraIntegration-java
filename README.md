@@ -1,5 +1,16 @@
 # JiraIntegration_Java
 
+Using dependencies:
+
+
+```
+<dependency>
+        <groupId>com.sun.jersey</groupId>
+        <artifactId>jersey-client</artifactId>
+        <version>1.8</version>
+</dependency>
+```
+   
 
 Create a Jira Ticket
 

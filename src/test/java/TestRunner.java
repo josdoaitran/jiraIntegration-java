@@ -1,13 +1,13 @@
-import org.junit.runner.RunWith;
+import org.junit.Test;
 
 import java.util.Date;
 
-@RunWith(Test.class)
-public class Test {
+
+public class TestRunner {
 
     @Test
-    public void Test1() {
-        createATicket(generateJiraTicketDate());
+    public void TestExample() {
+        JiraLibrary.createATicket(generateJiraTicketDate());
     }
 
 

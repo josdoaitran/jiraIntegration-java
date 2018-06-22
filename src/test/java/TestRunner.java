@@ -9,7 +9,7 @@ public class TestRunner {
     @Test
     public void TestExample() throws AuthenticationException {
         //JiraLibrary.getJiraProjectName();
-        JiraLibrary.createJiraTicket("Bug");
+        JiraLibrary.createJiraTicket("Task");
         //JiraLibrary.deleteJiraTicket("ATD-2");
         //JiraLibrary.createJiraTaskTicket();
         //SynapseRTLibrary.addTestCaseToTestPlan("ATD-6","ATD-7");

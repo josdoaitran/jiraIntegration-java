@@ -47,7 +47,7 @@ public class JiraLibrary {
 
     /**
      *
-     * @param ticketType : Bug; TestCase
+     * @param ticketType : Bug; Task
      * @return
      * @throws AuthenticationException
      */

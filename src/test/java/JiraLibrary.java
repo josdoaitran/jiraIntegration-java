@@ -45,27 +45,14 @@ public class JiraLibrary {
         return projectKey;
     }
 
-    public static String createJiraTaskTicket() throws AuthenticationException {
-        String auth = new String(Base64.encode(userNameJira + ":" + passWordJira));
-        String projects = invokeGetMethod(auth, projectAPI);
-        System.out.println(projects);
-        String projectKey = null;
-        JSONArray projectArray = new JSONArray(projects);
-        for (int i = 0; i < projectArray.length(); i++) {
-            JSONObject proj = projectArray.getJSONObject(i);
-            System.out.println("Key:"+proj.getString("key")+", Name:"+proj.getString("name"));
-            projectKey = proj.getString("key");
-        }
-        String createIssueData = "{\"fields\":{\"project\":{\"key\":\""+projectKey+"\"},\"summary\":\""+summaryTicket+"\",\"issuetype\":{\"name\":\"Task\"}}}";
-        String issue = invokePostMethod(auth, createTicketAPI, createIssueData);
-        System.out.println("Bug Ticket: "+issue);
-        JSONObject issueObj = new JSONObject(issue);
-        String newKey = issueObj.getString("key");
-        System.out.println("Key:"+newKey);
-        return issue;
-    }
+    /**
+     *
+     * @param ticketType : Bug; TestCase
+     * @return
+     * @throws AuthenticationException
+     */
 
-    public static String createJiraBugTicket() throws AuthenticationException {
+    public static String createJiraTicket(String ticketType) throws AuthenticationException {
         String auth = new String(Base64.encode(userNameJira + ":" + passWordJira));
         String projects = invokeGetMethod(auth, projectAPI);
         System.out.println(projects);
@@ -76,7 +63,7 @@ public class JiraLibrary {
             System.out.println("Key:"+proj.getString("key")+", Name:"+proj.getString("name"));
             projectKey = proj.getString("key");
         }
-        String createIssueData = "{\"fields\":{\"project\":{\"key\":\""+projectKey+"\"},\"summary\":\""+summaryTicket+"\",\"issuetype\":{\"name\":\"Bug\"}}}";
+        String createIssueData = "{\"fields\":{\"project\":{\"key\":\""+projectKey+"\"},\"summary\":\""+summaryTicket+"\",\"issuetype\":{\"name\":\""+ticketType+"\"}}}";
         String issue = invokePostMethod(auth, createTicketAPI, createIssueData);
         System.out.println("Bug Ticket: "+issue);
         JSONObject issueObj = new JSONObject(issue);

@@ -18,11 +18,18 @@ https://doc.go2group.com/display/SRT6/synapseRT+REST+API
 public class SynapseRTLibrary extends JiraLibrary{
     private static String testPlanAPI = hostJira + "/rest/synapse/latest/public/testPlan/";
 
+    /**
+     *
+     * @param testCaseID
+     * @param testPlanID
+     * @throws AuthenticationException
+     */
+
     public static void addTestCaseToTestPlan(String testCaseID, String testPlanID) throws AuthenticationException {
         String auth = new String(Base64.encode(userNameJira + ":" + passWordJira));
         String createIssueData = "{\"testCaseKeys\":[\""+testCaseID+"\"]}";
-        String issue = invokePostMethod(auth, testPlanAPI+testPlanID+"/addMembers", createIssueData);
-        if(issue.contains("Success")){
+        String response = invokePostMethod(auth, testPlanAPI+testPlanID+"/addMembers", createIssueData);
+        if(response.contains("Success")){
             System.out.println("Added successfully.");
         }else {
             System.out.println("Unable to add TCs: " + testCaseID + "on TestPlan: " + testPlanID);
@@ -70,6 +77,32 @@ public class SynapseRTLibrary extends JiraLibrary{
         }
     }
 
+    /**
+     *
+     * @param testCaseID
+     * @param testPlanID
+     * @param cycleName
+     * @throws AuthenticationException
+     */
+    public static void updateTestCaseInTestCycle(String testCaseID, String status, String testPlanID, String cycleName) throws AuthenticationException {
+        String auth = new String(Base64.encode(userNameJira + ":" + passWordJira));
+        String data = "{\"testcaseKey\":\""+testCaseID+"\"," +
+                "\"result\":\""+status+"\"," +
+                "\"comment\":\"Updated through REST\"}";
+        String response = invokePostMethod(auth, testPlanAPI+testPlanID+"/cycle/"+cycleName+"/updateTestRun",data);
+        System.out.println(response);
+        if(response.contains("Success")){
+            System.out.println("Added successfully.");
+        }else {
+            System.out.println("Unable to update test cycle for test plan: " + testPlanID);
+        }
+    }
+
+
+    /**
+     *
+     * @return
+     */
 
     private static String startTestCycle(){
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");

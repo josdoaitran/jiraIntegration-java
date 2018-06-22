@@ -80,6 +80,7 @@ public class SynapseRTLibrary extends JiraLibrary{
     /**
      *
      * @param testCaseID
+     * @param status : Passed / Failed
      * @param testPlanID
      * @param cycleName
      * @throws AuthenticationException
@@ -92,9 +93,9 @@ public class SynapseRTLibrary extends JiraLibrary{
         String response = invokePostMethod(auth, testPlanAPI+testPlanID+"/cycle/"+cycleName+"/updateTestRun",data);
         System.out.println(response);
         if(response.contains("Success")){
-            System.out.println("Added successfully.");
+            System.out.println("Update successfully.");
         }else {
-            System.out.println("Unable to update test cycle for test plan: " + testPlanID);
+            System.out.println("Unable to update test case for test plan: " + testPlanID);
         }
     }
 

@@ -14,7 +14,7 @@ public class TestRunner {
         //JiraLibrary.createJiraTaskTicket();
         //SynapseRTLibrary.addTestCaseToTestPlan("ATD-6","ATD-7");
         //SynapseRTLibrary.updateTestCycleStatus("ATD-7","TestCycleName","Start");
-        SynapseRTLibrary.updateTestCaseInTestCycle("ATD-6","Passed","ATD-7","TestCycleName");
+        SynapseRTLibrary.updateTestCaseInTestCycle("ATD-11","Failed","ATD-7","TestCycleName");
     }
 
 

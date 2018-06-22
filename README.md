@@ -14,6 +14,11 @@
 
 Create a Jira Ticket
 
+With Test Case, Test Plan.
+
+We use: SynapseRTL
+
+API:  https://doc.go2group.com/display/SRT6/REST+API
 
 
 **Reference**:

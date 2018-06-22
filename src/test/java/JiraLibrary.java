@@ -6,13 +6,11 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 import com.sun.jersey.core.util.Base64;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.naming.AuthenticationException;
-import java.util.Date;
 
 public class JiraLibrary {
     public static String userNameJira = "doaitran";
@@ -63,7 +61,8 @@ public class JiraLibrary {
             System.out.println("Key:"+proj.getString("key")+", Name:"+proj.getString("name"));
             projectKey = proj.getString("key");
         }
-        String createIssueData = "{\"fields\":{\"project\":{\"key\":\""+projectKey+"\"},\"summary\":\""+summaryTicket+"\",\"issuetype\":{\"name\":\""+ticketType+"\"}}}";
+        String createIssueData = "{\"fields\":{\"project\":{\"key\":\""+projectKey+"\"}," +
+                "\"summary\":\""+summaryTicket+"\",\"issuetype\":{\"name\":\""+ticketType+"\"}}}";
         String issue = invokePostMethod(auth, createTicketAPI, createIssueData);
         System.out.println("Bug Ticket: "+issue);
         JSONObject issueObj = new JSONObject(issue);
@@ -83,7 +82,8 @@ public class JiraLibrary {
             System.out.println("Key:"+proj.getString("key")+", Name:"+proj.getString("name"));
             projectKey = proj.getString("key");
         }
-        String createIssueData = "{\"fields\":{\"project\":{\"key\":\""+projectKey+"\"},\"summary\":\""+summaryTicket+"\",\"issuetype\":{\"name\":\"Bug\"}}}";
+        String createIssueData = "{\"fields\":{\"project\":{\"key\":\""+projectKey+"\"}," +
+                "\"summary\":\""+summaryTicket+"\",\"issuetype\":{\"name\":\"Bug\"}}}";
         String issue = invokePostMethod(auth, updateTicketAPI, createIssueData);
         System.out.println(issue);
         JSONObject issueObj = new JSONObject(issue);
@@ -129,6 +129,18 @@ public class JiraLibrary {
         if (statusCode == 401) {
             throw new AuthenticationException("Invalid Username or Password");
         }
+    }
+
+    public static String invokePutMethodNoData(String auth, String url) throws AuthenticationException, ClientHandlerException {
+        Client client = Client.create();
+        WebResource webResource = client.resource(url);
+        ClientResponse response = webResource.header("Authorization", "Basic " + auth).type("application/json")
+                .accept("application/json").put(ClientResponse.class);
+        int statusCode = response.getStatus();
+        if (statusCode == 401) {
+            throw new AuthenticationException("Invalid Username or Password");
+        }
+        return auth;
     }
 
     public static void invokeDeleteMethod(String auth, String url) throws AuthenticationException, ClientHandlerException {
